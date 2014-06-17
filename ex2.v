@@ -97,9 +97,25 @@ Proof.
   intros.
   assert(H: //x/x=1).
   rewrite inv_l. reflexivity.
-   assert(H1: 1 * / (/ x) * / x = 1). 
+  assert(H1: //x/x*x=x).
+ rewrite -> H. rewrite one_unit_l. reflexivity.
+(* ここで、//x = xが示せれば、証明終わりなんだけど・・・ *)
+Admitted.
+(* 
+  assert(H1: 1 * / (/ x) * / x = 1). 
   rewrite one_unit_l. apply H.
-  assert(H2: 1 * (/(/ x) * / x)).
+  rewrite <-  mult_assoc in H1.
+  
+  assert(H2: (//x/x) * x = x).
+  rewrite  H. apply one_unit_l.
+  rewrite <- mult_assoc in H2.
+  assert(H3: //x=x).
+  rewrite -> inv_l in H2.
+  
+  rewrite <- one_unit_l in H.
+  assumption.
+ 
   rewrite -> inv_l. reflexivity.
   rewrite <- mult_assoc in H1. 
   rewite -> 
+*)
