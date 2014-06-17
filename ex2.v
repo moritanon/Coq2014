@@ -97,11 +97,21 @@ Proof.
   intros.
   assert(H: //x/x=1).
   rewrite inv_l. reflexivity.
-  assert(H1: //x/x*x=x).
- rewrite -> H. rewrite one_unit_l. reflexivity.
-(* ここで、//x = xが示せれば、証明終わりなんだけど・・・ *)
+(*
+
+1 subgoals, subgoal 1 (ID 150)
+  
+  x : G
+  H : / / x / x = 1
+  ============================
+   x / x = 1
+ ここで、//x = xが示せれば、証明終わりなんだけど・・・
+ 考え方が違うのだろうか。
+ *)
 Admitted.
-(* 
+(*
+  assert(H1: //x/x*x=x).
+ rewrite -> H. rewrite one_unit_l. reflexivity. 
   assert(H1: 1 * / (/ x) * / x = 1). 
   rewrite one_unit_l. apply H.
   rewrite <-  mult_assoc in H1.
