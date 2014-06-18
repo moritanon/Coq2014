@@ -92,40 +92,35 @@ Axiom mult_assoc : forall x y z, x * (y * z) = (x * y) * z.
 Axiom one_unit_l : forall x, 1 * x = x.
 Axiom inv_l : forall x, /x * x = 1.
 
+Lemma inv_inv_inv_l : forall x : G, //x*/x=1.
+Proof.
+ intros.
+  rewrite inv_l. reflexivity.
+Qed.
+
 Lemma inv_r : forall x, x * / x = 1.
 Proof.
   intros.
-  assert(H: //x/x=1).
-  rewrite inv_l. reflexivity.
-(*
+  assert (H1: 1 * x / x = x / x).
+  rewrite one_unit_l.  reflexivity.
+  rewrite <- H1. 
+  assert (H2: 1 * x / x = //x*/x*x/x). 
+  rewrite inv_inv_inv_l. reflexivity.
+  rewrite H2.
+  assert(H3: //x/x*x/x=//x*(/x*x)*/x).
+  rewrite -> mult_assoc. reflexivity.
+  rewrite H3. rewrite inv_l.
+  rewrite <- mult_assoc.
+  rewrite one_unit_l.   
+  rewrite inv_inv_inv_l. reflexivity.
+Qed.
 
-1 subgoals, subgoal 1 (ID 150)
-  
-  x : G
-  H : / / x / x = 1
-  ============================
-   x / x = 1
- ここで、//x = xが示せれば、証明終わりなんだけど・・・
- 考え方が違うのだろうか。
- *)
-Admitted.
-(*
-  assert(H1: //x/x*x=x).
- rewrite -> H. rewrite one_unit_l. reflexivity. 
-  assert(H1: 1 * / (/ x) * / x = 1). 
-  rewrite one_unit_l. apply H.
-  rewrite <-  mult_assoc in H1.
-  
-  assert(H2: (//x/x) * x = x).
-  rewrite  H. apply one_unit_l.
-  rewrite <- mult_assoc in H2.
-  assert(H3: //x=x).
-  rewrite -> inv_l in H2.
-  
-  rewrite <- one_unit_l in H.
-  assumption.
- 
-  rewrite -> inv_l. reflexivity.
-  rewrite <- mult_assoc in H1. 
-  rewite -> 
-*)
+Lemma one_unit_r: forall x, x * 1 = x.
+Proof.
+ intros.
+ assert(H1: x * 1 = x * /x * x).
+ rewrite <- mult_assoc.
+ rewrite inv_l. reflexivity.
+ rewrite  H1.  rewrite inv_r. rewrite one_unit_l.
+ reflexivity.
+Qed.
