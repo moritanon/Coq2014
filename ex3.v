@@ -41,14 +41,26 @@ Fixpoint sum (xs: list nat) : nat :=
       | b :: m => b = a \/ In a m
     end.
 
-*)
+Inductive le (n:nat) : nat -> Prop :=
+  | le_n : n <= n
+  | le_S : forall m:nat, n <= m -> n <= S m
 
+where "n <= m" := (le n m) : nat_scope.
+
+Definition lt (n m:nat) := S n <= m.
+Infix "<" := lt : nat_scope.
+*)
 
 Theorem Pigeon_Hole_Principle :
   forall (xs : list nat), length xs < sum xs -> (exists x, 1<x /\ In x xs).
 Proof.
  intros.
- induction xs.
+ induction xs as [|x' xs'].
   simpl in H.
   inversion H.
-SearchAbout nth.
+simpl in H.
+simpl In. unfold lt in H.
+exists 2.
+split. unfold lt. apply le_n. right.
+apply IHxs'.
+ SearchAbout nth.
